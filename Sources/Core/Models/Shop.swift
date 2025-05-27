@@ -11,3 +11,8 @@ public struct Shop {
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
+
+public struct Location: Codable {
+    let latitude: Double
+    let longitude: Double
+}

@@ -27,25 +27,19 @@ public class StoreLocatorViewController: UIViewController, MKMapViewDelegate {
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         AnalyticsTracker.shared.track(event: "Store_Selected")
-        
-        let products = ProductProvider.shared.fetchProducts()
+        guard let shopName = view.annotation?.title, let shopName = shopName?.lowercased() else { return}
+        let productName = shopName.replacingOccurrences(of: " ", with: "_") + "_products"
+        let products = ProductProvider.shared.fetchProducts(shopName: productName)
         let productListVC = ProductListViewController(products: products)
         
         navigationController?.pushViewController(productListVC, animated: true)
     }
     
     /// Accepts shop name and coordinate strings and sets up shop annotations.
-    public func configureShops(shopName: String, coordinates: [String]) {
-        let shops: [Shop] = coordinates.compactMap { coordStr in
-            let parts = coordStr.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
-            guard parts.count == 2,
-                  let lat = Double(parts[0]),
-                  let lon = Double(parts[1]) else {
-                return nil
-            }
-            return Shop(name: shopName, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
+    public func configureShops(shopName: String, locations: [Location]) {
+        let shops: [Shop] = locations.compactMap { location in
+            return Shop(name: shopName, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
         }
-        
         self.shops = shops
     }
 }
