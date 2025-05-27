@@ -39,8 +39,7 @@ public class StoreLocatorViewController: UIViewController, MKMapViewDelegate {
     public func configureShops(shopName: String, latLong: [Location]) {
         var stores: [Shop] = []
         let shopLocations = latLong.map { location in
-            let coordinates = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-            let shop = Shop(name: shopName, coordinates: coordinates)
+            let shop = Shop(name: shopName, latitude: location.latitude, longitude: location.longitude)
             stores.append(shop)
         }
         self.shops = stores
