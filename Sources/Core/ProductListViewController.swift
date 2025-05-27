@@ -36,7 +36,7 @@ public class ProductListViewController: UIViewController, UITableViewDataSource 
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let product = products[indexPath.row]
         cell.textLabel?.text = product.name
-        cell.detailTextLabel?.text = "Product ID: \(product.id)"
+        cell.detailTextLabel?.text = "\(product.name) - ₹\(product.price)"
         return cell
     }
 }

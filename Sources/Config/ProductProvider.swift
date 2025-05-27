@@ -6,11 +6,10 @@ public protocol ProductProviding {
     func fetchProducts(shopName: String) -> [Product]
 }
 
-
-
 public struct Product: Codable {
     public let id: String
     public let name: String
+    public let price: Double
 }
 
 /// Provides product data from a local JSON file bundled with the host app.
