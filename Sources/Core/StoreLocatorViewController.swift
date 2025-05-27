@@ -36,11 +36,14 @@ public class StoreLocatorViewController: UIViewController, MKMapViewDelegate {
     }
     
     /// Accepts shop name and coordinate strings and sets up shop annotations.
-    public func configureShops(shopName: String, locations: [Location]) {
-        let shops: [Shop] = locations.compactMap { location in
-            return Shop(name: shopName, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+    public func configureShops(shopName: String, latLong: [Location]) {
+        var stores: [Shop] = []
+        let shopLocations = latLong.map { location in
+            let coordinates = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+            let shop = Shop(name: shopName, coordinates: coordinates)
+            stores.append(shop)
         }
-        self.shops = shops
+        self.shops = stores
     }
 }
 
